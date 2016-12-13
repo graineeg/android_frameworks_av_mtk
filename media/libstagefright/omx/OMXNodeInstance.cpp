@@ -211,10 +211,14 @@ OMXNodeInstance::OMXNodeInstance(
     : mOwner(owner),
       mNodeID(0),
       mHandle(NULL),
+#ifndef USE_LEGACY_MTK_AV_BLOB
       mObserver(observer),
       mSailed(false),
       mQueriedProhibitedExtensions(false),
       mBufferIDCount(0)
+#else
+      mObserver(observer)
+#endif
 {
     mName = ADebug::GetDebugName(name);
     DEBUG = ADebug::GetDebugLevelFromProperty(name, "debug.stagefright.omx-debug");
@@ -1966,11 +1970,12 @@ void OMXNodeInstance::removeActiveBuffer(
 void OMXNodeInstance::freeActiveBuffers() {
     // Make sure to count down here, as freeBuffer will in turn remove
     // the active buffer from the vector...
-    for (size_t i = mActiveBuffers.size(); i > 0;) {
-        i--;
+    for (size_t i = mActiveBuffers.size(); i--;) {
         freeBuffer(mActiveBuffers[i].mPortIndex, mActiveBuffers[i].mID);
     }
 }
+
+#ifndef USE_LEGACY_MTK_AV_BLOB
 
 OMX::buffer_id OMXNodeInstance::makeBufferID(OMX_BUFFERHEADERTYPE *bufferHeader) {
     if (bufferHeader == NULL) {
@@ -2037,5 +2042,22 @@ void OMXNodeInstance::invalidateBufferID(OMX::buffer_id buffer) {
     mBufferHeaderToBufferID.removeItem(mBufferIDToBufferHeader.valueAt(index));
     mBufferIDToBufferHeader.removeItemsAt(index);
 }
+#else
 
+OMX::buffer_id OMXNodeInstance::makeBufferID(OMX_BUFFERHEADERTYPE *bufferHeader) {
+    return (OMX::buffer_id)bufferHeader;
+}
+
+OMX_BUFFERHEADERTYPE *OMXNodeInstance::findBufferHeader(OMX::buffer_id buffer) {
+    return (OMX_BUFFERHEADERTYPE *)buffer;
+}
+
+OMX::buffer_id OMXNodeInstance::findBufferID(OMX_BUFFERHEADERTYPE *bufferHeader) {
+    return (OMX::buffer_id)bufferHeader;
+}
+
+void OMXNodeInstance::invalidateBufferID(OMX::buffer_id buffer __unused) {
+}
+
+#endif
 }  // namespace android
