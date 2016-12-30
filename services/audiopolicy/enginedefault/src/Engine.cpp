@@ -139,18 +139,32 @@ status_t Engine::setPhoneState(audio_mode_t state)
             streams.setVolumeCurvePoint(AUDIO_STREAM_DTMF, static_cast<Volume::device_category>(j),
                                          Gains::sVolumeProfiles[AUDIO_STREAM_VOICE_CALL][j]);
         }
+// zormax add
+#ifdef MTK_HARDWARE
+        AudioPolicyVendorControl &mAudioPolicyVendorControl = mApmObserver->getAudioPolicyVendorControl();
+        mAudioPolicyVendorControl.setVoiceReplaceDTMFStatus(true);
+#endif
     } else if (is_state_in_call(oldState) && !is_state_in_call(state)) {
         ALOGV("  Exiting call in setPhoneState()");
         for (int j = 0; j < Volume::DEVICE_CATEGORY_CNT; j++) {
             streams.setVolumeCurvePoint(AUDIO_STREAM_DTMF, static_cast<Volume::device_category>(j),
                                          Gains::sVolumeProfiles[AUDIO_STREAM_DTMF][j]);
         }
+// zormax add
+#ifdef MTK_HARDWARE
+        AudioPolicyVendorControl &mAudioPolicyVendorControl = mApmObserver->getAudioPolicyVendorControl();
+        mAudioPolicyVendorControl.setVoiceReplaceDTMFStatus(false);
+#endif
     }
     return NO_ERROR;
 }
 
 status_t Engine::setForceUse(audio_policy_force_use_t usage, audio_policy_forced_cfg_t config)
 {
+// zormax add
+#ifdef MTK_HARDWARE
+    AudioPolicyVendorControl &mAudioPolicyVendorControl = mApmObserver->getAudioPolicyVendorControl();
+#endif
     switch(usage) {
     case AUDIO_POLICY_FORCE_FOR_COMMUNICATION:
         if (config != AUDIO_POLICY_FORCE_SPEAKER && config != AUDIO_POLICY_FORCE_BT_SCO &&
@@ -291,6 +305,10 @@ audio_devices_t Engine::getDeviceForStrategy(routing_strategy strategy) const
 {
     const DeviceVector &availableOutputDevices = mApmObserver->getAvailableOutputDevices();
     const DeviceVector &availableInputDevices = mApmObserver->getAvailableInputDevices();
+// zormax add
+#ifdef MTK_HARDWARE
+    AudioPolicyVendorControl &mAudioPolicyVendorControl = mApmObserver->getAudioPolicyVendorControl();
+#endif
 
     const SwAudioOutputCollection &outputs = mApmObserver->getOutputs();
 
@@ -623,6 +641,10 @@ audio_devices_t Engine::getDeviceForInputSource(audio_source_t inputSource) cons
 #ifndef LEGACY_ALSA_AUDIO
     const DeviceVector &availableOutputDevices = mApmObserver->getAvailableOutputDevices();
     const SwAudioOutputCollection &outputs = mApmObserver->getOutputs();
+#endif
+// zormax add
+#ifdef MTK_HARDWARE
+    AudioPolicyVendorControl &mAudioPolicyVendorControl = mApmObserver->getAudioPolicyVendorControl();
 #endif
     audio_devices_t availableDeviceTypes = availableInputDevices.types() & ~AUDIO_DEVICE_BIT_IN;
 

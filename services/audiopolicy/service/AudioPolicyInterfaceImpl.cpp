@@ -743,6 +743,21 @@ status_t AudioPolicyService::stopAudioSource(audio_io_handle_t handle)
     return mAudioPolicyManager->stopAudioSource(handle);
 }
 
+// zormax add
+status_t AudioPolicyService::SetPolicyManagerParameters(int par1, int par2, int par3, int par4)
+{
+#ifdef MTK_HARDWARE
+    Mutex::Autolock _l(mLock);
+    if (mAudioPolicyManager == NULL) {
+        return NO_INIT;
+    }
+    return mAudioPolicyManager->SetPolicyManagerParameters(par1, par2, par3, par4);
+#else
+    return 0;
+#endif
+
+}
+
 status_t AudioPolicyService::listAudioSessions(audio_stream_type_t streams,
                                                Vector< sp<AudioSessionInfo>> &sessions)
 {

@@ -50,6 +50,11 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_AAC_ADTS_OFFLOAD)),true)
 LOCAL_CFLAGS     += -DAAC_ADTS_OFFLOAD_ENABLED
 endif
 
+# zormax add
+LOCAL_SHARED_LIBRARIES += \
+    libmedia \
+    libaudiocustparam
+
 LOCAL_MODULE := libaudiopolicycomponents
 
 include $(BUILD_STATIC_LIBRARY)

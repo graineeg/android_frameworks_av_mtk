@@ -22,6 +22,8 @@
 #include <utils/String8.h>
 
 #include <hardware/audio_policy.h>
+// zormax add
+#include <AudioCustomVolume.h>
 
 namespace android {
 
@@ -227,6 +229,9 @@ public:
                                       const audio_attributes_t *attributes,
                                       audio_io_handle_t *handle) = 0;
     virtual status_t stopAudioSource(audio_io_handle_t handle) = 0;
+    // zormax add
+    virtual status_t SetPolicyManagerParameters(int par1, int par2 , int par3 , int par4) = 0;
+
 };
 
 
@@ -334,6 +339,8 @@ public:
 
     virtual void onOutputSessionEffectsUpdate(sp<AudioSessionInfo>& streamInfo, bool added) = 0;
 
+// zormax add
+    virtual status_t getCustomAudioVolume(void* pCustomVol) = 0;
 };
 
 extern "C" AudioPolicyInterface* createAudioPolicyManager(AudioPolicyClientInterface *clientInterface);

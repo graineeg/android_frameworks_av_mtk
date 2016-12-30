@@ -52,6 +52,11 @@ LOCAL_MODULE:= libaudiopolicyservice
 
 LOCAL_CFLAGS += -fvisibility=hidden
 
+# zormax add
+LOCAL_SHARED_LIBRARIES += \
+    libmedia \
+    libaudiocustparam
+
 include $(BUILD_SHARED_LIBRARY)
 
 
@@ -93,6 +98,11 @@ LOCAL_STATIC_LIBRARIES := \
     libmedia_helper \
     libaudiopolicycomponents
 
+# zormax add
+LOCAL_SHARED_LIBRARIES += \
+    libmedia \
+    libaudiocustparam
+
 LOCAL_MODULE:= libaudiopolicymanagerdefault
 
 include $(BUILD_SHARED_LIBRARY)
@@ -113,6 +123,11 @@ LOCAL_STATIC_LIBRARIES := \
 LOCAL_C_INCLUDES += \
     $(TOPDIR)frameworks/av/services/audiopolicy/common/include \
     $(TOPDIR)frameworks/av/services/audiopolicy/engine/interface \
+
+# zormax add
+LOCAL_SHARED_LIBRARIES += \
+    libmedia \
+    libaudiocustparam
 
 LOCAL_MODULE:= libaudiopolicymanager
 

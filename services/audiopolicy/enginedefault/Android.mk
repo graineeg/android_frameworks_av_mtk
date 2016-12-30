@@ -48,4 +48,10 @@ LOCAL_SHARED_LIBRARIES += \
     libutils \
     libaudioutils \
 
+# zormax add
+LOCAL_SHARED_LIBRARIES += \
+    libmedia \
+    libaudiocustparam
+
+
 include $(BUILD_SHARED_LIBRARY)

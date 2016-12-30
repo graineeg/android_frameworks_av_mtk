@@ -44,6 +44,12 @@
 #include <StreamDescriptor.h>
 #include <SessionRoute.h>
 
+// zormax add
+#include <AudioPolicyVendorControl.h>
+#include <utils/threads.h>
+#include <AudioCustParam.h>
+#include <AudioCustomVolume.h>
+
 namespace android {
 
 // ----------------------------------------------------------------------------
@@ -194,6 +200,8 @@ public:
         virtual status_t dump(int fd);
 
         virtual bool isOffloadSupported(const audio_offload_info_t& offloadInfo);
+        // zormax add
+        virtual status_t SetPolicyManagerParameters(int par1,int par2 ,int par3,int par4) ;
 
         virtual status_t listAudioPorts(audio_port_role_t role,
                                         audio_port_type_t type,
@@ -274,6 +282,11 @@ protected:
         virtual const sp<DeviceDescriptor> &getDefaultOutputDevice() const
         {
             return mDefaultOutputDevice;
+        }
+        // zormax add
+        virtual AudioPolicyVendorControl &getAudioPolicyVendorControl()
+        {
+            return mAudioPolicyVendorControl;
         }
 protected:
         void addOutput(audio_io_handle_t output, sp<SwAudioOutputDescriptor> outputDesc);
@@ -571,6 +584,10 @@ protected:
 
         // Audio Policy Engine Interface.
         AudioPolicyManagerInterface *mEngine;
+		// zormax add
+        AudioPolicyVendorControl mAudioPolicyVendorControl;
+        void LoadCustomVolume(void);
+
 protected:
         // updates device caching and output for streams that can influence the
         //    routing of notifications
@@ -614,6 +631,19 @@ protected:
                                                           audio_policy_dev_state_t state,
                                                           const char *device_address,
                                                           const char *device_name);
+// zormax add
+private:
+        float linearToLog(int volume);
+        int logToLinear(float volume);
+        int mapVol(float &vol, float unitstep);
+        int mapping_Voice_vol(float &vol, float unitstep);
+        float computeCustomVolume(int stream, int index, audio_devices_t device);
+        int getStreamMaxLevels(int  stream);
+        float mapVoiceVoltoCustomVol(unsigned char array[], int volmin, int volmax, float &vol);
+        float mapVoltoCustomVol(unsigned char array[], int volmin, int volmax,float &vol , int stream);
+		AUDIO_CUSTOM_VOLUME_STRUCT mAudioCustVolumeTable;
+//public:
+//		static AUDIO_VER1_CUSTOM_VOLUME_STRUCT Audio_Ver1_Custom_Volume;
 };
 
 };
