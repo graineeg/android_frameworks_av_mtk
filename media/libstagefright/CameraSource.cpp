@@ -43,10 +43,6 @@
 #define UNUSED_UNLESS_VERBOSE(x)
 #endif
 
-#ifdef MTK_HARDWARE
-#define OMX_MTK_COLOR_FormatYV12 0x7F000200
-#endif
-
 namespace android {
 
 static const int64_t CAMERA_SOURCE_TIMEOUT_NS = 3000000000LL;
@@ -112,11 +108,7 @@ static int32_t getColorFormat(const char* colorFormat) {
     }
 
     if (!strcmp(colorFormat, CameraParameters::PIXEL_FORMAT_YUV420P)) {
-#ifdef	MTK_HARDWARE
-       return OMX_MTK_COLOR_FormatYV12;
-#else
        return OMX_COLOR_FormatYUV420Planar;
-#endif
     }
 
     if (!strcmp(colorFormat, CameraParameters::PIXEL_FORMAT_YUV422SP)) {
