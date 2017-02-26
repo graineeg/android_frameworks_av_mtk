@@ -97,6 +97,10 @@ LOCAL_C_INCLUDES := \
     $(call include-path-for, audio-effects) \
     $(call include-path-for, audio-utils)
 
+ifeq ($(BOARD_USES_MTK_MEDIA_PROFILES), true)
+LOCAL_CFLAGS += -DMTK_MEDIA_PROFILES
+endif
+
 LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
 LOCAL_CLANG := true
 LOCAL_SANITIZE := unsigned-integer-overflow signed-integer-overflow
