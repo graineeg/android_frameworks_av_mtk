@@ -32,25 +32,19 @@ extern int64_t _ZNK7android12IMediaSource11ReadOptions9getLateByEv(void *readOpt
 */
 
 bool _ZNK7android11MediaSource11ReadOptions14getNonBlockingEv(android::IMediaSource::ReadOptions *readOptions) {
-    ALOGW("_ZNK7android11MediaSource11ReadOptions14getNonBlockingEv");
     bool res = readOptions->getNonBlocking();
-    ALOGW("_ZNK7android11MediaSource11ReadOptions14getNonBlockingEv %d", res);
     return res;
 }
 
 bool _ZNK7android11MediaSource11ReadOptions9getSeekToEPxPNS1_8SeekModeE(android::IMediaSource::ReadOptions *readOptions, int64_t *time_us, android::IMediaSource::ReadOptions::SeekMode *mode) {
     //return _ZNK7android12IMediaSource11ReadOptions9getSeekToEPxPNS1_8SeekModeE(readOptions, time_us, mode);
-    ALOGW("[Decker] _ZNK7android11MediaSource11ReadOptions9getSeekToEPxPNS1_8SeekModeE");
     bool res = readOptions->getSeekTo(time_us, mode);
-    ALOGW("[Decker] _ZNK7android11MediaSource11ReadOptions9getSeekToEPxPNS1_8SeekModeE %lld, %d, %d", *time_us, *mode, res);
     return res;
 }
 
 int64_t _ZNK7android11MediaSource11ReadOptions9getLateByEv(android::IMediaSource::ReadOptions *readOptions) {
     //return _ZNK7android12IMediaSource11ReadOptions9getLateByEv(readOptions);
-    ALOGW("[Decker] _ZNK7android11MediaSource11ReadOptions9getLateByEv");
     int64_t res = readOptions->getLateBy();
-    ALOGW("[Decker] _ZNK7android11MediaSource11ReadOptions9getLateByEv %lld", res);
     return res;
 }
 
