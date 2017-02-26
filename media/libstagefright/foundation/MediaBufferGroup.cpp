@@ -111,13 +111,6 @@ void MediaBufferGroup::add_buffer(MediaBuffer *buffer) {
     // optionally: mGrowthLimit = max(mGrowthLimit, mBuffers.size());
 }
 
-// stagefright: add mising MediaBufferGroup::acquire_buffer symbol - https://review.cyanogenmod.org/#/c/77502/
-extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferE(
-                    MediaBufferGroup* group, MediaBuffer **out) {
-    ALOGD("[Decker] _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferE");
-    return group->acquire_buffer(out, false, 0);
-}
-
 // just another method fix
 extern "C" status_t _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferEb(
                     MediaBufferGroup* group, MediaBuffer **out, bool nonBlocking) {
