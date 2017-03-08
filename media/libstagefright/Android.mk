@@ -212,7 +212,6 @@ LOCAL_C_INCLUDES += \
 	$(TOP)/hardware/samsung/exynos4/include
 endif
 
-ifeq ($(BOARD_HAS_MTK_HARDWARE),true)
 ifeq ($(BOARD_USES_LEGACY_MTK_AV_BLOB),true)
 LOCAL_CFLAGS += -DUSE_LEGACY_MTK_AV_BLOB
 endif
